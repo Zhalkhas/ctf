@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+Welcome, {{ user.username }}!
+
+<p><a href="{% url 'logout' %}">logout</a></p>
+{% if message %}
+{{ message }}
+{% endif %}
+
+<form action="/users/submit-flag/" method="POST">
+  {% csrf_token  %}
+  <input type="text" name="flag">
+  <input type="submit" value="Submit">
+</form>
+<button class='btn-primary' onclick="window.location.href='{% url 'leaderboards' %}'">Leaderboards</button>
+
+{% else %}
+<p>Welcome to OracleCTF! Log in or sign up to continue</p>
+<div class="btn-group" role="group" aria-label="Basic example">
+<button class='btn-primary' onclick="window.location.href='{% url 'login' %}'" >Log in</button> 
+<button class='btn-primary' onclick="window.location.href='{% url 'signup' %}'">Sign up</button>
+<button class='btn-primary' onclick="window.location.href='{% url 'leaderboards' %}'">Leaderboards</button>
+</div>
+{% endif %}
+{% endblock %}
